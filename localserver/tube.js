@@ -30,7 +30,7 @@ function onPlayerStateChange(event) {
 			loopCount++;
 			player.seekTo(0, true);
 			event.target.playVideo();
-		}else window.app.end();
+		}
 	}
 }
 var playerReady = 0;

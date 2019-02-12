@@ -8,78 +8,74 @@
 <script src="nico.js"></script>
 	<script src="tube.js"></script>
 	<div id="ytplayer"></div>
-<script>
 	<div class="NicoPlayer" id="NicoPlayer"></div>
+<script>
+console.log("サーバ起動開始");
 var express = require('express');
 var server= express();
 url = require('url');
-var nowPlayVideoID;
-server.get('/operation.html', function(req, res){
-	var suc=false;
-	if (req.query.stop) {
-		myPauseVideo();
-		suc=true;
+var nowPlayVideoID;//再生中の動画
+console.log("ページ生成開始");
+var reqCounter=0;
+server.get('/operation.html', function(req, res){//操作ページ生成&パラメータから処理
+console.log("リクエスト"+(reqCounter++));
+var rescode=nowPlayVideoID;
+	if (req.query.stop) {//stopパラメータがある
+		myPauseVideo();//動画停止
 	}else if (req.query.play) {
-		myPlayVideo();
-		suc=true;
+		myPlayVideo();//動画再生
 	}
-	if (req.query.vol) {
+	if (req.query.vol) {//音量変更
 		mySetVolume(req.query.vol);
-		suc=true;
 	}
-	if (req.query.seek) {
+	if (req.query.seek) {//シーク
 		mySeekTo(req.query.seek);
-		suc=true;
 	}
-	if(req.query.GETvolume){
+	if(req.query.GETvolume){//音量取得
 		res.send(""+myGetVolume());
 		return;
 	}
-	var index=0;
-	if (req.query.index) {
-		index=parseInt(req.query.index, 10);
+	var index=0;//再生リストのインデックス
+	if (req.query.index) {//インデックス指定あり
+		index=parseInt(req.query.index, 10);//数値化
 	}
-	if (req.query.v) {
+	if (req.query.v) {//v=パラメータがある
 		var videoID = req.query.v;
 		//console.log(videoID);
 		//alart("videoID="+videoID);
-		loadVideo(videoID);
-		suc=true;
+		loadVideo(videoID);//動画再生
 		nowPlayVideoID=videoID;
-	}else if (req.query.list) {
-		var listID = req.query.list;
+	}else if (req.query.list) {//プレイリスト
+		var listID = req.query.list;//リストID取得
 		//console.log(listID);
 		//alart("listID="+listID);
-		loadList(videoID,0);
-		suc=true;
+		loadList(listID,index);//リスト再生
 		nowPlayVideoID=listID;
-	}else if (req.query.nico) {
+	}else if (req.query.nico) {//nico=パラメータがある
 		var videoID = req.query.nico;
-		removeNicoPlayer();
+		removeNicoPlayer();//ニコニコのプレイヤー削除
 		var nico=new NicovideoPlayer('body',videoID);
-		suc=true;
 		nowPlayVideoID=videoID;
 	}
-	if(suc)res.send(nowPlayVideoID);
-	else res.send("失敗");
+	res.send(rescode);
 });
-server.listen(7001);//サーバのポート 5050これは本番環境の時使うポートのメモ
+//console.log("サーバ開始");
+//server.listen(7000);//サーバのポート7000
 function startServer(){
-/*
+	console.log("サーバ開始");
 var input_port = document.getElementById("input_port");
 var port=parseInt(input_port.value, 10);
 server.listen(port, function() {
-    //console.log('Listening on port '+port);
+		console.log('サーバ開始'+port);
+		alert('サーバ開始'+port);
 });
-*/
+
 }
 </script>
-	<center>
 		<!--<h1>TubePlayForElectron</h1>-->
 		Port<input type="number" id="input_port" value="7000">
 		<input type="button" id="submit" value="サーバ起動!" onclick="startServer();"></input>
 		<!--<script src="server.js"></script>-->
-	</center>
 	<div style="margin-bottom: 5px;">
 		<input type="button" name="btn1" value="ミュート(mute)"
 			onclick="myMute();" /> <input type="button" name="btn2"
@@ -146,9 +142,13 @@ function loadVideoNico(){
 function loadVideoF(){
 	loadVideo(document.getElementById('videoID').value);
 }
+function loadListF(){
+	loadList(document.getElementById('videoID').value,0);
+}
 </script>
 	<p>動画ID=<input type="text" name="videoID" value="" id="videoID" />
 	<input type="button"　name="btn3" value="ようつべ再生" onclick="loadVideoF();" />
+	<input type="button"　name="btn3" value="リスト再生" onclick="loadListF();" />
 	<input type="button"　name="btn3" value="ニコ動再生" onclick="loadVideoNico();" /></p>
 	<!-- <input type="button" name="btn6" value="myGetTitle" onclick="myGetTitle();" />-->
 </body>
