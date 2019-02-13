@@ -6,9 +6,9 @@
 </head>
 <body>
 <script src="nico.js"></script>
-	<script src="tube.js"></script>
-	<div id="ytplayer"></div>
-	<div class="NicoPlayer" id="NicoPlayer"></div>
+<script src="tube.js"></script>
+<div id="ytplayer"></div>
+<iframe id="NicoFrame" width="500" height="300" src="https://www.google.co.jp/"></iframe><!--srcは後で指定-->
 <script>
 console.log("サーバ起動開始");
 var express = require('express');
@@ -17,13 +17,22 @@ url = require('url');
 var nowPlayVideoID;//再生中の動画
 console.log("ページ生成開始");
 var reqCounter=0;
+var playerType=0;
 server.get('/operation.html', function(req, res){//操作ページ生成&パラメータから処理
-console.log("リクエスト"+(reqCounter++));
-var rescode=nowPlayVideoID;
+	console.log("リクエスト"+(reqCounter++));
+	var rescode=nowPlayVideoID;
 	if (req.query.stop) {//stopパラメータがある
-		myPauseVideo();//動画停止
+		if(playerType==2){
+			//本体HTML側
+			var iframe = document.getElementById('NicoFrame');
+			iframe.contentWindow.myPauseVideo();
+		}else myPauseVideo();//動画停止
 	}else if (req.query.play) {
-		myPlayVideo();//動画再生
+		if(playerType==2){
+			//本体HTML側
+			var iframe = document.getElementById('NicoFrame');
+			iframe.contentWindow.myPlayVideo();
+		}else myPlayVideo();//動画再生
 	}
 	if (req.query.vol) {//音量変更
 		mySetVolume(req.query.vol);
@@ -45,31 +54,64 @@ var rescode=nowPlayVideoID;
 		//alart("videoID="+videoID);
 		loadVideo(videoID);//動画再生
 		nowPlayVideoID=videoID;
+		playerType=0;
 	}else if (req.query.list) {//プレイリスト
 		var listID = req.query.list;//リストID取得
 		//console.log(listID);
 		//alart("listID="+listID);
 		loadList(listID,index);//リスト再生
 		nowPlayVideoID=listID;
+		playerType=1;
 	}else if (req.query.nico) {//nico=パラメータがある
+		//var iframe = document.getElementById('NicoFrame');
+		//iframe.src="http://localhost:"+static_server_port+"/nico.html";//ここで内部サーバのiframe読み込み
+		//console.log('http://localhost:'+static_server_port+"/nico.html");
+		//iframe.contentWindow.location.reload();
+
+		var videoID = req.query.nico;
+		var iframe = document.getElementById('NicoFrame');
+		iframe.contentWindow.loadVideo(videoID);
+		nowPlayVideoID=videoID;
+		playerType=2;
+		/*
 		var videoID = req.query.nico;
 		removeNicoPlayer();//ニコニコのプレイヤー削除
 		var nico=new NicovideoPlayer('body',videoID);
-		nowPlayVideoID=videoID;
+		*/
 	}
 	res.send(rescode);
 });
+console.log("静的リソースサーバ起動開始");
+var nodeStatic = require('node-static');
+var file = new nodeStatic.Server(__dirname);
+
+var static_server=require('http').createServer(function (request, response) {
+    request.addListener('end', function () {
+        file.serve(request, response);
+    }).resume();
+});
+var static_server_port=7001;//内部サーバのポート
 //console.log("サーバ開始");
-//server.listen(7000);//サーバのポート7000
+//static_server.listen(static_server_port);//サーバのポート7000
 function startServer(){
 	console.log("サーバ開始");
-var input_port = document.getElementById("input_port");
-var port=parseInt(input_port.value, 10);
-server.listen(port, function() {
+	var input_port = document.getElementById("input_port");
+	var port=parseInt(input_port.value, 10);
+	server.listen(port, function() {
 		console.log('サーバ開始'+port);
-		alert('サーバ開始'+port);
-});
-
+		alert('サーバ開始'+port+'&'+(port+1));
+	});
+	static_server_port=port+1;
+		var iframe = document.getElementById('NicoFrame');
+	static_server.listen(static_server_port, function() {
+		console.log('静的リソースサーバ開始'+static_server_port);
+		//iframe.contentDocument.location.replace('http://nana.sh/slot');//これ動く
+		//iframe.src="http://localhost:"+static_server_port+"/test.html";//ここで内部サーバのiframe読み込み
+		//iframe.contentWindow.location.reload();//これいらない
+		//console.log('http://localhost:'+static_server_port+"/test.html");
+		iframe.contentDocument.location.replace('http://localhost:'+static_server_port+"/nico.html");
+		console.log("IFRAME更新");
+	});
 }
 </script>
 		<!--<h1>TubePlayForElectron</h1>-->
@@ -97,44 +139,6 @@ server.listen(port, function() {
 			onclick="alertLoopCount();" />
 	</div>
 <script>
-	/*
-var express = require('express');
-var server= express();
-url = require('url');
-server.get('/tube.html', function(req, res){
-	if (req.query.v) {
-		var videoID = req.query.v;
-		console.log(videoID);
-		alart("videoID="+videoID);
-		loadVideo(videoID);
-		res.send("成功="+chat);
-	}else res.send("失敗");
-});
-//var input_port = document.getElementById("input_port");
-//var port=parseInt(input_port.value, 10);
-//alart("port=7000");
-server.listen(7000, function() {
-	//console.log('Listening on port ');
-});
-*/
-function removeNicoPlayer(){
-    var np=document.getElementsByClassName('NicoPlayer');
-    //子要素を全て削除
-    var i = 0;
-    while(np.length > i){
-      n = np[i];
-      while (n.firstChild !== null){
-        n.removeChild(n.firstChild);
-      }
-      n.parentNode.removeChild(n);
-      i++;
-    }
-//    while (np.firstChild != null){
-//      np.removeChild(np.firstChild);
-//    }
-    //自分を削除
-//    np.parentNode.removeChild(np);
-}
 function loadVideoNico(){
 	removeNicoPlayer();
 	var nico=new NicovideoPlayer('body',document.getElementById('videoID').value);
@@ -146,10 +150,10 @@ function loadListF(){
 	loadList(document.getElementById('videoID').value,0);
 }
 </script>
-	<p>動画ID=<input type="text" name="videoID" value="" id="videoID" />
-	<input type="button"　name="btn3" value="ようつべ再生" onclick="loadVideoF();" />
-	<input type="button"　name="btn3" value="リスト再生" onclick="loadListF();" />
-	<input type="button"　name="btn3" value="ニコ動再生" onclick="loadVideoNico();" /></p>
-	<!-- <input type="button" name="btn6" value="myGetTitle" onclick="myGetTitle();" />-->
+<p>動画ID=<input type="text" name="videoID" value="" id="videoID" />
+<input type="button"　name="btn3" value="ようつべ再生" onclick="loadVideoF();" />
+<input type="button"　name="btn4" value="リスト再生" onclick="loadListF();" />
+<input type="button"　name="btn5" value="ニコ動再生" onclick="loadVideoNico();" /></p>
+<!-- <input type="button" name="btn6" value="myGetTitle" onclick="myGetTitle();" />-->
 </body>
 </html>

@@ -5,15 +5,30 @@
 <script src="nico.js"></script>
 </head>
 <body>
+<div class="NicoPlayer" id="NicoPlayer"></div>
 <script>
-var nico=new NicovideoPlayer('body', 'sm21352528');//テスト用。固定
-function closeNicoPlayer(){
-document.getElementById('id');
-//自分を削除
-element.parentNode.removeChild(element);
-
-//子要素を全て削除
-while (element.firstChild) element.removeChild(element.firstChild);
+function removeNicoPlayer(){
+    var np=document.getElementsByClassName('NicoPlayer');
+    //子要素を全て削除
+    var i = 0;
+    while(np.length > i){
+      n = np[i];
+      while (n.firstChild !== null){
+        n.removeChild(n.firstChild);
+      }
+      n.parentNode.removeChild(n);
+      i++;
+		}
+	//    while (np.firstChild != null){
+	//      np.removeChild(np.firstChild);
+	//    }
+	//自分を削除
+	//    np.parentNode.removeChild(np);
+}
+var nico=null;
+function loadVideo(id) {
+	removeNicoPlayer();
+	nico=new NicovideoPlayer('body',id);
 }
 function mySeekTo(point) {
 	nico.postMessage({
@@ -27,6 +42,7 @@ function myPauseVideo() {
     });
 }
 function myPlayVideo() {
+		//alert('再生');
 	nico.postMessage({
         eventName: 'play',
     });

@@ -245,7 +245,7 @@
 		              }
 
 		            case 'loadComplete':{
-		                _this2.renderInfoTable(data.videoInfo);
+										_this2.renderInfoTable(data.videoInfo);
 		                break;
 		              }
 
