@@ -3,6 +3,19 @@
 <meta charset=utf-8>
 <title>nico</title>
 <script src="nico.js"></script>
+<script>
+let player1 = document.getElementById('NicoPlayer');
+    player1.contentWindow.postMessage({
+        sourceConnectorType: 1,
+        eventName: 'play'
+    }, 'http://embed.nicovideo.jp');
+
+    window.addEventListener('message', (e) => {
+        if (e.origin === 'http://embed.nicovideo.jp') {
+            console.log(e.data.eventName);
+        }
+    });
+</script>
 </head>
 <body>
 <div class="NicoPlayer" id="NicoPlayer"></div>
@@ -44,6 +57,7 @@ function myPauseVideo() {
 function myPlayVideo() {
 		//alert('再生');
 	nico.postMessage({
+        sourceConnectorType: 1,
         eventName: 'play',
     });
 }
