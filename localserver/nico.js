@@ -246,6 +246,10 @@
 
 		            case 'loadComplete':{
 										_this2.renderInfoTable(data.videoInfo);
+										_this2.postMessage({
+											sourceConnectorType: 1,
+											eventName: 'play',
+										});
 		                break;
 		              }
 
@@ -304,7 +308,8 @@
 
 		        case 3: // 一時停止
 		        case 4: // 再生終了
-		          if (data.playerStatus === 4 && this.state.isRepeat&&loopCount<3) {//ループ回数制限
+							if (data.playerStatus === 4 && this.state.isRepeat&&loopCount<3) {//ループ回数制限
+								loopCount++;
 		            this.postMessage({
 		              eventName: 'seek',
 		              data: {

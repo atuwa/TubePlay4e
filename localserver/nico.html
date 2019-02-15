@@ -40,6 +40,8 @@ function removeNicoPlayer(){
 }
 var nico=null;
 function loadVideo(id) {
+  var frame_loaded=document.getElementById("frame_loaded");
+  frame_loaded.innerHTML="";
 	removeNicoPlayer();
 	nico=new NicovideoPlayer('body',id);
 }
@@ -86,7 +88,12 @@ function myUnMute() {
 function myGetTitle(){
 	return "NotSuport";
 }
+function alertLoopCount(){
+	alert("LC="+loopCount);
+}
 </script>
+<h1 id="frame_loaded">ニコニコ動画表示iframe読み込み完了</h1>
+<!--
 	<div style="margin-bottom: 5px;">
 		<input type="button" name="btn4" value="音量を設定(setVolume)"
 			onclick="mySetVolume(30);" /><input type="button" name="btn5"
@@ -96,6 +103,7 @@ function myGetTitle(){
 		<input type="button" name="btn1" value="再生(playVideo)"
 			onclick="myPlayVideo();" /> <input type="button" name="btn2"
 			value="一時停止(pauseVideo)" onclick="myPauseVideo();" />
-	</div>
+  </div>
+-->
 </body>
 </html>

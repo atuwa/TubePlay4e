@@ -5,7 +5,8 @@
 <meta charset=utf-8>
 </head>
 <body>
-<script src="nico.js"></script>
+<!--<script src="nico.js"></script>-->
+<script src="control.js"></script>
 <script src="tube.js"></script>
 <div id="ytplayer"></div>
 <iframe id="NicoFrame" width="500" height="300" src="https://www.google.co.jp/"></iframe><br><!--srcは後で指定-->
@@ -15,35 +16,50 @@
 		<input type="button" id="submit" value="サーバ起動!" onclick="startServer();"></input>
 		<!--<script src="server.js"></script>-->
 	<div style="margin-bottom: 5px;">
-		<input type="button" name="btn1" value="ミュート(mute)"
-			onclick="myMute();" /> <input type="button" name="btn2"
-			value="ミュート解除(unMute)" onclick="myUnMute();" /> <input type="button"
-			name="btn3" value="ミュート状態(isMuted)" onclick="myIsMuted();" />
-		<input type="button" name="btn4" value="音量を設定(setVolume)"
-			onclick="mySetVolume(30);" /> <input type="button" name="btn5"
-			value="音量を取得(getVolume)" onclick="myGetVolume();" />
+		<input type="button" name="btn1" value="ミュート"
+			onclick="muteCom();" /> <input type="button" name="btn2"
+			value="ミュート解除" onclick="unMuteCom();" /> <input type="button"
+			name="btn3" value="ミュート状態(つべ)" onclick="myIsMuted();" />
+		<input type="button" name="btn4" value="音量を設定(20固定)"
+			onclick="volCom(20);" /> <input type="button" name="btn5"
+			value="音量を取得(alart)" onclick="alertVolCom();" />
 	</div>
 	<div style="margin-bottom: 5px;">
-		<input type="button" name="btn1" value="再生(playVideo)"
-			onclick="myPlayVideo();" /> <input type="button" name="btn2"
-			value="一時停止(pauseVideo)" onclick="myPauseVideo();" /> <input
-			type="button" name="btn3" value="最初に移動(seekTo)"
-			onclick="mySeekTo(0);" />
+		<input type="button" name="btn1" value="再生"
+			onclick="playCom();" /> <input type="button" name="btn2"
+			value="一時停止" onclick="stopCom();" /> <input
+			type="button" name="btn3" value="最初に移動"
+			onclick="seekCom(0);" />
 			<input type="button" name="btn4" value="alertLoopCount"
-			onclick="alertLoopCount();" />
+			onclick="alertLoopCountCom();" />
 	</div>
 <script>
+	const ipcMain = require("electron").remote.ipcMain;
+	ipcMain.on("playNicoVideo", (event, videoID)=>{
+		//動かない
+		var iframe = document.getElementById('NicoFrame');
+		iframe.contentWindow.loadVideo(videoID);
+		alart("再生開始"+videoID);
+	});
+	//動く
 function loadVideoNico(){
+	stopCom();
 			var iframe = document.getElementById('NicoFrame');
-			iframe.contentWindow.loadVideo(document.getElementById('videoID').value);
+			iframe.contentWindow.loadVideo(nowPlayVideoID=document.getElementById('videoID').value);
+			//iframe.contentWindow.myPlayVideo();
+			playerType=2;
 	//removeNicoPlayer();
 	//var nico=new NicovideoPlayer('body',document.getElementById('videoID').value);
 }
 function loadVideoF(){
+	stopCom();
 	loadVideo(document.getElementById('videoID').value);
+			playerType=0;
 }
 function loadListF(){
+	stopCom();
 	loadList(document.getElementById('videoID').value,0);
+			playerType=1;
 }
 </script>
 <p>動画ID=<input type="text" name="videoID" value="" id="videoID" />

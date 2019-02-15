@@ -2,34 +2,24 @@ console.log("サーバ起動開始");
 var express = require('express');
 var server= express();
 url = require('url');
-var nowPlayVideoID;//再生中の動画
 console.log("ページ生成開始");
 var reqCounter=0;
-var playerType=0;
 server.get('/operation.html', function(req, res){//操作ページ生成&パラメータから処理
 	console.log("リクエスト"+(reqCounter++));
 	var rescode=nowPlayVideoID;
 	if (req.query.stop) {//stopパラメータがある
-		if(playerType==2){
-			//本体HTML側
-			var iframe = document.getElementById('NicoFrame');
-			iframe.contentWindow.myPauseVideo();
-		}else myPauseVideo();//動画停止
+		stopCom();
 	}else if (req.query.play) {
-		if(playerType==2){
-			//本体HTML側
-			var iframe = document.getElementById('NicoFrame');
-			iframe.contentWindow.myPlayVideo();
-		}else myPlayVideo();//動画再生
+		playCom();
 	}
 	if (req.query.vol) {//音量変更
-		mySetVolume(req.query.vol);
+		volCom(req.query.vol);
 	}
 	if (req.query.seek) {//シーク
-		mySeekTo(req.query.seek);
+		seekCom(req.query.seek);
 	}
 	if(req.query.GETvolume){//音量取得
-		res.send(""+myGetVolume());
+		res.send(""+getVolCom());
 		return;
 	}
 	var index=0;//再生リストのインデックス
@@ -37,6 +27,7 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		index=parseInt(req.query.index, 10);//数値化
 	}
 	if (req.query.v) {//v=パラメータがある
+		stopCom();
 		var videoID = req.query.v;
 		//console.log(videoID);
 		//alart("videoID="+videoID);
@@ -44,6 +35,7 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		nowPlayVideoID=videoID;
 		playerType=0;
 	}else if (req.query.list) {//プレイリスト
+		stopCom();
 		var listID = req.query.list;//リストID取得
 		//console.log(listID);
 		//alart("listID="+listID);
@@ -51,14 +43,14 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		nowPlayVideoID=listID;
 		playerType=1;
 	}else if (req.query.nico) {//nico=パラメータがある
+		stopCom();
 		//var iframe = document.getElementById('NicoFrame');
 		//iframe.src="http://localhost:"+static_server_port+"/nico.html";//ここで内部サーバのiframe読み込み
 		//console.log('http://localhost:'+static_server_port+"/nico.html");
 		//iframe.contentWindow.location.reload();
-
 		var videoID = req.query.nico;
-		var iframe = document.getElementById('NicoFrame');
-		iframe.contentWindow.loadVideo(videoID);
+		const ipcRenderer= require("electron").ipcRenderer;
+		ipcRenderer.send("playNicoVideo", videoID);
 		nowPlayVideoID=videoID;
 		playerType=2;
 		/*
