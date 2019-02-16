@@ -43,21 +43,9 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		nowPlayVideoID=listID;
 		playerType=1;
 	}else if (req.query.nico) {//nico=パラメータがある
-		stopCom();
-		//var iframe = document.getElementById('NicoFrame');
-		//iframe.src="http://localhost:"+static_server_port+"/nico.html";//ここで内部サーバのiframe読み込み
-		//console.log('http://localhost:'+static_server_port+"/nico.html");
-		//iframe.contentWindow.location.reload();
 		var videoID = req.query.nico;
-		const ipcRenderer= require("electron").ipcRenderer;
-		ipcRenderer.send("playNicoVideo", videoID);
-		nowPlayVideoID=videoID;
-		playerType=2;
-		/*
-		var videoID = req.query.nico;
-		removeNicoPlayer();//ニコニコのプレイヤー削除
-		var nico=new NicovideoPlayer('body',videoID);
-		*/
+		document.getElementById('videoID').value=videoID;
+		loadVideoNico();
 	}
 	res.send(rescode);
 });

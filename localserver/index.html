@@ -34,45 +34,6 @@
 			onclick="alertLoopCountCom();" />
 	</div>
 <script>
-	/*
-	const ipcMain = require("electron").remote.ipcMain;
-	ipcMain.on("playNicoVideo", (event, videoID)=>{
-		//alert("再生開始"+videoID);
-		//mainWindow.webContents.send('PNV',videoID);
-		//動かない
-		//console.log(document.getElementById("playNicoBtn").value);//ここ?
-		//document.getElementById('videoID').value=videoID;
-		//document.getElementById("playNicoBtn").click();//これ
-		
-		console.log("PNBボタン名"+document.getElementById("playNicoBtn").value);//ここ?
-		document.getElementById('videoID').value=videoID;
-		document.getElementById("playNicoBtn").click();//これ
-		//stopCom();
-		//var iframe = document.getElementById('NicoFrame');
-		//iframe.contentWindow.loadVideo(videoID);
-	});
-	*/
-	/*
-	// レンダラープロセスでやりとりするipcRenderer
-	const {ipcRenderer} = require('electron');
-	// asynchronous-messageチャンネルの受信処理
-	ipcRenderer.on('PNV', (videoID) => {
-		console.log(document.getElementById("playNicoBtn").value);//ここ?
-		document.getElementById('videoID').value=videoID;
-		document.getElementById("playNicoBtn").click();//これ
-	});
-	*/
-	// レンダラープロセスでやりとりするipcRenderer
-	const {ipcRenderer} = require('electron');
-	// asynchronous-messageチャンネルの受信処理
-	ipcRenderer.on('PNV', (event,videoID) => {//ここに来てるデータがわからない
-		console.log("動画ID="+videoID);//成功!
-		console.log("PNBボタン名"+document.getElementById("playNicoBtn").value);
-		document.getElementById('videoID').value=videoID;
-		document.getElementById("playNicoBtn").click();//これ
-		document.querySelector("#ext-player #rootElementId div div div div button").click();//どう使うの?
-	});
-	//動く
 function loadVideoNico(){
 	stopCom();
 	//alert("再生開始"+videoID);

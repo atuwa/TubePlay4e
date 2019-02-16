@@ -32,13 +32,3 @@ app.on("ready", () => {
     mainWindow = null;
   });
 });
-// メインプロセスでやりとりするipcMain
-const {ipcMain} = require('electron');
-//asynchronous-messageチャンネルの受信処理
-ipcMain.on('playNicoVideo', (event, vid) => {//これ
-  console.log("playNicoVideo="+vid);//正常に出てた
-  mainWindow.webContents.send('PNV', vid.toString());
-  // event.senderに送信元のプロセスが設定されているので、asynchronous-replyチャンネルで文字列"pong"を非同期通信で送信元に送信
-  //event.sender.send('asynchronous-reply', 'pong');
-  // ※event.senderはwebContentsオブジェクトな
-});
