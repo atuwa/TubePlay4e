@@ -9,7 +9,7 @@
 <script src="control.js"></script>
 <script src="tube.js"></script>
 <div id="ytplayer"></div>
-<iframe id="NicoFrame" width="500" height="300" src="https://www.google.co.jp/"></iframe><br><!--srcは後で指定-->
+<iframe id="NicoFrame" width="500" height="300" src="https://www.google.co.jp/" allow="autoplay"></iframe><br><!--srcは後で指定-->
 <script src="server.js"></script>
 		<!--<h1>TubePlayForElectron</h1>-->
 		Port<input type="number" id="input_port" value="7000">
@@ -34,16 +34,48 @@
 			onclick="alertLoopCountCom();" />
 	</div>
 <script>
+	/*
 	const ipcMain = require("electron").remote.ipcMain;
 	ipcMain.on("playNicoVideo", (event, videoID)=>{
+		//alert("再生開始"+videoID);
+		//mainWindow.webContents.send('PNV',videoID);
 		//動かない
-		var iframe = document.getElementById('NicoFrame');
-		iframe.contentWindow.loadVideo(videoID);
-		alart("再生開始"+videoID);
+		//console.log(document.getElementById("playNicoBtn").value);//ここ?
+		//document.getElementById('videoID').value=videoID;
+		//document.getElementById("playNicoBtn").click();//これ
+		
+		console.log("PNBボタン名"+document.getElementById("playNicoBtn").value);//ここ?
+		document.getElementById('videoID').value=videoID;
+		document.getElementById("playNicoBtn").click();//これ
+		//stopCom();
+		//var iframe = document.getElementById('NicoFrame');
+		//iframe.contentWindow.loadVideo(videoID);
+	});
+	*/
+	/*
+	// レンダラープロセスでやりとりするipcRenderer
+	const {ipcRenderer} = require('electron');
+	// asynchronous-messageチャンネルの受信処理
+	ipcRenderer.on('PNV', (videoID) => {
+		console.log(document.getElementById("playNicoBtn").value);//ここ?
+		document.getElementById('videoID').value=videoID;
+		document.getElementById("playNicoBtn").click();//これ
+	});
+	*/
+	// レンダラープロセスでやりとりするipcRenderer
+	const {ipcRenderer} = require('electron');
+	// asynchronous-messageチャンネルの受信処理
+	ipcRenderer.on('PNV', (event,videoID) => {//ここに来てるデータがわからない
+		console.log("動画ID="+videoID);//成功!
+		console.log("PNBボタン名"+document.getElementById("playNicoBtn").value);
+		document.getElementById('videoID').value=videoID;
+		document.getElementById("playNicoBtn").click();//これ
+		document.querySelector("#ext-player #rootElementId div div div div button").click();//どう使うの?
 	});
 	//動く
 function loadVideoNico(){
 	stopCom();
+	//alert("再生開始"+videoID);
 			var iframe = document.getElementById('NicoFrame');
 			iframe.contentWindow.loadVideo(nowPlayVideoID=document.getElementById('videoID').value);
 			//iframe.contentWindow.myPlayVideo();
@@ -65,7 +97,7 @@ function loadListF(){
 <p>動画ID=<input type="text" name="videoID" value="" id="videoID" />
 <input type="button"　name="btn3" value="ようつべ再生" onclick="loadVideoF();" />
 <input type="button"　name="btn4" value="リスト再生" onclick="loadListF();" />
-<input type="button"　name="btn5" value="ニコ動再生" onclick="loadVideoNico();" /></p>
+<input type="button"　name="btn5" id="playNicoBtn" value="ニコ動再生" onclick="loadVideoNico();" /></p>
 <input type="button" name="btn6" value="IFRAME再読み込み" onclick="reloadNicoFrame();" />
 </body>
 </html>

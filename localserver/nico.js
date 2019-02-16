@@ -103,7 +103,7 @@
 		    } }, { key: 'renderPlayer', value: function renderPlayer()
 
 		    {
-		      var player = document.createElement('iframe');
+		      var player = document.createElement('iframe');//ニコニコの埋め込みプレイヤーのiframe生成。どこに書いたらいいの?
 		      var source = new URL(NicovideoPlayer.origin + '/watch/' + this.watchId);
 		      var params = {
 		        jsapi: 1,
@@ -119,7 +119,8 @@
 		      player.src = source;
 		      player.frameBorder = 0;
 		      player.allowFullscreen = true;
-		      player.classList.add('c-player');
+					player.classList.add('c-player');
+					player.allow="autoplay";//こうしてみる
 
 		      return player;
 		    } }, { key: 'renderControls', value: function renderControls()
