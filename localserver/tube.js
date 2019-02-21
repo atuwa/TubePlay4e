@@ -17,11 +17,17 @@ function onYouTubeIframeAPIReady() {
 		videoId : 'M7lc1UVf-VE',
 		// イベントの設定
 		events : {
+			// プレーヤーの準備ができたときに実行
 			'onReady' : onPlayerReady,
-			'onStateChange' : onPlayerStateChange
-		// プレーヤーの準備ができたときに実行
+			'onStateChange' : onPlayerStateChange,
+			'onError': onPlayerError
 		}
 	});
+}
+var errorCode;
+// onErrorのコールバック関数
+function onPlayerError(event) {	
+	errorCode = event.data;
 }
 // onStateChangeのコールバック関数
 function onPlayerStateChange(event) {
@@ -79,7 +85,11 @@ function myGetTitle() {
 function alertLoopCount(){
 	alert("LC="+loopCount);
 }
+function getErrorCode(){
+	return errorCode;
+}
 function loadVideo(id){
+	errorCode=0;
 	player.loadVideoById({
 	            'videoId': id,
 	            'suggestedQuality': 'small'

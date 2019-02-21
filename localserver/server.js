@@ -22,6 +22,10 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		res.send(""+getVolCom());
 		return;
 	}
+	if(req.query.GETerror){//音量取得
+		res.send(""+getErrorCom());
+		return;
+	}
 	var index=0;//再生リストのインデックス
 	if (req.query.index) {//インデックス指定あり
 		index=parseInt(req.query.index, 10);//数値化

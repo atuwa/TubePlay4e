@@ -52,8 +52,9 @@
 			throw new TypeError("Cannot call a class as a function");
 			}
 		}
-	var loopCount=0;
+	var loopCountN=0;
 	var VolumeData=30;
+	var isMute=false;
 	var NicovideoPlayer = function () {
 			function NicovideoPlayer(containerSelector, watchId) {_classCallCheck(this, NicovideoPlayer);
 		    this.playerId = '0';//(++NicovideoPlayer.playerId).toString();
@@ -69,7 +70,7 @@
 		    {
 					var wrapper = document.createElement('div');
 					wrapper.id='NicoPlayer';
-		      wrapper.classList.add('NicoPlayer');//これを削除したい
+		      wrapper.classList.add('NicoPlayer');
 
 		      this.player = this.renderPlayer();
 		      this.controls = this.renderControls();
@@ -103,7 +104,7 @@
 		    } }, { key: 'renderPlayer', value: function renderPlayer()
 
 		    {
-		      var player = document.createElement('iframe');//ニコニコの埋め込みプレイヤーのiframe生成。どこに書いたらいいの?
+		      var player = document.createElement('iframe');
 		      var source = new URL(NicovideoPlayer.origin + '/watch/' + this.watchId);
 		      var params = {
 		        jsapi: 1,
@@ -120,7 +121,7 @@
 		      player.frameBorder = 0;
 		      player.allowFullscreen = true;
 					player.classList.add('c-player');
-					player.allow="autoplay";//こうしてみる
+					player.allow="autoplay";
 
 		      return player;
 		    } }, { key: 'renderControls', value: function renderControls()
@@ -285,7 +286,8 @@
 
 		      // ミュートの更新
 		      if (data.muted !== mute.checked) {
-		        mute.checked = data.muted;
+						mute.checked = data.muted;
+						isMute=data.muted;
 		      }
 
 		      // 音量の更新
@@ -309,14 +311,12 @@
 
 		        case 3: // 一時停止
 		        case 4: // 再生終了
-							if (data.playerStatus === 4 && this.state.isRepeat&&loopCount<3) {//ループ回数制限
-								loopCount++;
+							if (data.playerStatus === 4 && (this.state.isRepeat||loopCountN<3)){//ループ回数制限
+								loopCountN++;
 		            this.postMessage({
 		              eventName: 'seek',
 		              data: {
 		                time: 0 } });
-
-
 		          } else {
 		            this.playButtonChange(true);
 		          }

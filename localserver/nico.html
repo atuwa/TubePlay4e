@@ -40,6 +40,7 @@ function removeNicoPlayer(){
 }
 var nico=null;
 function loadVideo(id) {
+  loopCountN=0;
   var frame_loaded=document.getElementById("frame_loaded");
   frame_loaded.innerHTML="";
 	removeNicoPlayer();
@@ -57,11 +58,15 @@ function myPauseVideo() {
     });
 }
 function myPlayVideo() {
+  loopCountN=0;
 		//alert('再生');
 	nico.postMessage({
         sourceConnectorType: 1,
         eventName: 'play',
     });
+}
+function myIsMuted(){
+  return isMute;
 }
 function myGetVolume() {
 	return VolumeData;
@@ -89,7 +94,7 @@ function myGetTitle(){
 	return "NotSuport";
 }
 function alertLoopCount(){
-	alert("LC="+loopCount);
+	alert("LC="+loopCountN);
 }
 </script>
 <h1 id="frame_loaded">ニコニコ動画表示iframe読み込み完了</h1>

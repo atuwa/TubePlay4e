@@ -24,6 +24,11 @@ function seekCom(seek){
 		iframe.contentWindow.mySeekTo(seek);
 	}else mySeekTo(seek);
 }
+function getErrorCom(){
+	if(playerType==2){
+		return 0;
+	}else return getErrorCode();
+}
 function getVolCom(){
 	if(playerType==2){
 		var iframe = document.getElementById('NicoFrame');
@@ -50,4 +55,10 @@ function alertLoopCountCom(){
 		var iframe = document.getElementById('NicoFrame');
 		iframe.contentWindow.alertLoopCount();
 	}else alertLoopCount();
+}
+function isMutedCom(){
+	if(playerType==2){
+		var iframe = document.getElementById('NicoFrame');
+		iframe.contentWindow.myIsMuted();
+	}else myIsMuted();
 }

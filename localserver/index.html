@@ -9,7 +9,7 @@
 <script src="control.js"></script>
 <script src="tube.js"></script>
 <div id="ytplayer"></div>
-<iframe id="NicoFrame" width="500" height="300" src="https://www.google.co.jp/" allow="autoplay"></iframe><br><!--srcは後で指定-->
+<iframe id="NicoFrame" width="500" height="300" src="https://atuwa.github.io/test/index.html" allow="autoplay" allowFullscreen></iframe><br><!--srcは後で指定-->
 <script src="server.js"></script>
 		<!--<h1>TubePlayForElectron</h1>-->
 		Port<input type="number" id="input_port" value="7000">
@@ -19,7 +19,7 @@
 		<input type="button" name="btn1" value="ミュート"
 			onclick="muteCom();" /> <input type="button" name="btn2"
 			value="ミュート解除" onclick="unMuteCom();" /> <input type="button"
-			name="btn3" value="ミュート状態(つべ)" onclick="myIsMuted();" />
+			name="btn3" value="ミュート状態" onclick="isMutedCom();" />
 		<input type="button" name="btn4" value="音量を設定(20固定)"
 			onclick="volCom(20);" /> <input type="button" name="btn5"
 			value="音量を取得(alart)" onclick="alertVolCom();" />
