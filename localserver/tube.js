@@ -1,4 +1,4 @@
-﻿var loopCount=0;
+var loopCount=0;
 // API読み込み
 script = document.createElement('script');
 script.src = "https://www.youtube.com/iframe_api";
@@ -8,7 +8,7 @@ firstScript.parentNode.insertBefore(script, firstScript);
 function onYouTubeIframeAPIReady() {
 	player = new YT.Player('ytplayer', {
 		width : '480',
-		height : '285',
+		height : '270',
 		playerVars : {
 			'rel' : 0,
 		//	'autoplay' : 0,
@@ -83,12 +83,13 @@ function myGetTitle() {
 	return title;
 }
 function alertLoopCount(){
-	alert("LC="+loopCount);
+	alert("LC-T="+loopCount);
 }
 function getErrorCode(){
 	return errorCode;
 }
 function loadVideo(id){
+	log("playTubeVideoID="+id);
 	errorCode=0;
 	player.loadVideoById({
 	            'videoId': id,
@@ -100,6 +101,7 @@ function loadVideo(id){
 }
 function loadList(id,index){
 if(index<0)index=0;
+	log("playTubeListID="+id+"&index="+index);
 	player.loadPlaylist({
 	            'listType': 'playlist',
 	            'list': id,

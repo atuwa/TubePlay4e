@@ -1,4 +1,4 @@
-﻿var _slicedToArray = function () {
+var _slicedToArray = function () {
 		function sliceIterator(arr, i) {
 			var _arr = [];
 			var _n = true;
@@ -116,7 +116,7 @@
 
 
 		      player.width = 480;
-		      player.height = 259;
+		      player.height = 270;
 		      player.src = source;
 		      player.frameBorder = 0;
 		      player.allowFullscreen = true;

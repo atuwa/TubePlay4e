@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <meta charset=utf-8>
 <title>nico</title>
@@ -40,6 +40,9 @@ function removeNicoPlayer(){
 }
 var nico=null;
 function loadVideo(id) {
+	const ipcRenderer= require("electron").ipcRenderer;
+  ipcRenderer.send("MainConsoleLog","playNicoVideoID="+id);
+  
   loopCountN=0;
   var frame_loaded=document.getElementById("frame_loaded");
   frame_loaded.innerHTML="";
@@ -94,7 +97,7 @@ function myGetTitle(){
 	return "NotSuport";
 }
 function alertLoopCount(){
-	alert("LC="+loopCountN);
+	alert("LC-N="+loopCountN);
 }
 </script>
 <h1 id="frame_loaded">ニコニコ動画表示iframe読み込み完了</h1>

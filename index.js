@@ -1,4 +1,4 @@
-﻿"use strct";
+"use strct";
 
 // Electronのモジュール
 const electron = require("electron");
@@ -22,7 +22,13 @@ app.on("window-all-closed", () => {
 // Electronの初期化完了後に実行
 app.on("ready", () => {
   //ウィンドウサイズを1280*720（フレームサイズを含まない）に設定する
-  mainWindow = new BrowserWindow({width: 550, height: 500, useContentSize: true});
+  mainWindow = new BrowserWindow({
+    width: 550,
+    height: 500,
+    icon: __dirname + '/icon.png',
+    useContentSize: true
+  });
+
   //使用するhtmlファイルを指定する
   mainWindow.loadURL(`file://${__dirname}/localserver/index.html`);
   //mainWindow.loadURL('http://localhost:'+localserverport+'/index.html');
@@ -31,4 +37,10 @@ app.on("ready", () => {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+});
+
+// メインプロセスでやりとりするipcMain
+const {ipcMain} = require('electron');
+ipcMain.on('MainConsoleLog', (event, data) => {//これ
+  console.log(data);
 });
