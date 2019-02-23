@@ -89,8 +89,8 @@ function getErrorCode(){
 	return errorCode;
 }
 function loadVideo(id){
-	log("playTubeVideoID="+id);
 	errorCode=0;
+	log("playTubeVideoID="+id);
 	player.loadVideoById({
 	            'videoId': id,
 	            'suggestedQuality': 'small'
@@ -101,6 +101,7 @@ function loadVideo(id){
 }
 function loadList(id,index){
 if(index<0)index=0;
+errorCode=0;
 	log("playTubeListID="+id+"&index="+index);
 	player.loadPlaylist({
 	            'listType': 'playlist',

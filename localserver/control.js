@@ -71,6 +71,10 @@ function isMutedCom(){
 	}else myIsMuted();
 }
 function log(d){
-	const ipcRenderer= require("electron").ipcRenderer;
-	ipcRenderer.send("MainConsoleLog",""+d);
+	try {
+		const ipcRenderer= require("electron").ipcRenderer;
+		ipcRenderer.send("MainConsoleLog",""+d);
+	}catch(error) {
+
+	}
 }

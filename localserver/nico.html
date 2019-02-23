@@ -40,9 +40,6 @@ function removeNicoPlayer(){
 }
 var nico=null;
 function loadVideo(id) {
-	const ipcRenderer= require("electron").ipcRenderer;
-  ipcRenderer.send("MainConsoleLog","playNicoVideoID="+id);
-  
   loopCountN=0;
   var frame_loaded=document.getElementById("frame_loaded");
   frame_loaded.innerHTML="";

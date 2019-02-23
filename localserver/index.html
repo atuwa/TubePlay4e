@@ -37,10 +37,12 @@
 function loadVideoNico(){
 	stopCom();
 	//alert("再生開始"+videoID);
-			var iframe = document.getElementById('NicoFrame');
-			iframe.contentWindow.loadVideo(nowPlayVideoID=document.getElementById('videoID').value);
-			//iframe.contentWindow.myPlayVideo();
-			playerType=2;
+	var iframe = document.getElementById('NicoFrame');
+	nowPlayVideoID=document.getElementById('videoID').value;
+	log("playNicoVideoID="+nowPlayVideoID);
+	iframe.contentWindow.loadVideo(nowPlayVideoID);
+	//iframe.contentWindow.myPlayVideo();
+	playerType=2;
 	//removeNicoPlayer();
 	//var nico=new NicovideoPlayer('body',document.getElementById('videoID').value);
 }
