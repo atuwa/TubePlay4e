@@ -8,7 +8,7 @@
 <!--<script src="nico.js"></script>-->
 <script src="control.js"></script>
 <script src="tube.js"></script>
-<div id="ytplayer"></div>
+<iframe id="TubeFrame" width="520" height="300" src="https://atuwa.github.io/test/index.html" allow="autoplay" allowFullscreen></iframe><!--srcは後で指定-->
 <iframe id="NicoFrame" width="520" height="300" src="https://atuwa.github.io/test/index.html" allow="autoplay" allowFullscreen></iframe><br><!--srcは後で指定-->
 <script src="server.js"></script>
 		<!--<h1>TubePlayForElectron</h1>-->
@@ -34,6 +34,22 @@
 			onclick="alertLoopCountCom();" />
 	</div>
 <script>
+function loadVideo(id){
+	stopCom();
+	document.getElementById('videoID').value=id;
+	log("playTubeVideoID="+id);
+	var iframe = document.getElementById('TubeFrame');
+	iframe.contentWindow.loadVideo(id);
+	playerType=0;
+}
+function loadList(id,index){
+	stopCom();
+	document.getElementById('videoID').value=id;
+	log("playTubeListID="+id+"&index="+index);
+	var iframe = document.getElementById('TubeFrame');
+	iframe.contentWindow.loadList(id,index);
+	playerType=1;
+}
 function loadVideoNico(){
 	stopCom();
 	//alert("再生開始"+videoID);
@@ -47,14 +63,10 @@ function loadVideoNico(){
 	//var nico=new NicovideoPlayer('body',document.getElementById('videoID').value);
 }
 function loadVideoF(){
-	stopCom();
 	loadVideo(document.getElementById('videoID').value);
-			playerType=0;
 }
 function loadListF(){
-	stopCom();
 	loadList(document.getElementById('videoID').value,0);
-			playerType=1;
 }
 </script>
 <p>動画ID=<input type="text" name="videoID" value="" id="videoID" />

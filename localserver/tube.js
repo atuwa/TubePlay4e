@@ -90,19 +90,16 @@ function getErrorCode(){
 }
 function loadVideo(id){
 	errorCode=0;
-	log("playTubeVideoID="+id);
 	player.loadVideoById({
 	            'videoId': id,
 	            'suggestedQuality': 'small'
         });
-	document.getElementById('videoID').value=id;
 	myPlayVideo();
 	player.unMute();
 }
 function loadList(id,index){
 if(index<0)index=0;
 errorCode=0;
-	log("playTubeListID="+id+"&index="+index);
 	player.loadPlaylist({
 	            'listType': 'playlist',
 	            'list': id,
@@ -110,7 +107,6 @@ errorCode=0;
 	            'startSeconds': 0,
 	            'suggestedQuality': 'small'
 	        });
-	document.getElementById('videoID').value=id;
 	myPlayVideo();
 player.unMute();
 }

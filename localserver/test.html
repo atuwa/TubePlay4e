@@ -1,8 +1,78 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-    </head>
-    <body>
-        <h1>テスト用</h1>
-    </body>
+<head>
+<title>テスト用</title>
+<meta charset=utf-8>
+</head>
+<body>
+<!--<script src="nico.js"></script>-->
+<script src="control.js"></script>
+<script src="tube.js"></script>
+<iframe id="TubeFrame" width="520" height="300" src="tube.html" allow="autoplay" allowFullscreen></iframe><!--srcは後で指定-->
+<iframe id="NicoFrame" width="520" height="300" src="nico.html" allow="autoplay" allowFullscreen></iframe><br><!--srcは後で指定-->
+<script src="server.js"></script>
+		<!--<h1>TubePlayForElectron</h1>-->
+		Port<input type="number" id="input_port" value="7000">
+		<input type="button" id="submit" value="サーバ起動!" onclick="startServer();"></input>
+		<!--<script src="server.js"></script>-->
+	<div style="margin-bottom: 5px;">
+		<input type="button" name="btn1" value="ミュート"
+			onclick="muteCom();" /> <input type="button" name="btn2"
+			value="ミュート解除" onclick="unMuteCom();" /> <input type="button"
+			name="btn3" value="ミュート状態" onclick="isMutedCom();" />
+		<input type="button" name="btn4" value="音量を設定(20固定)"
+			onclick="volCom(20);" /> <input type="button" name="btn5"
+			value="音量を取得(alart)" onclick="alertVolCom();" />
+	</div>
+	<div style="margin-bottom: 5px;">
+		<input type="button" name="btn1" value="再生"
+			onclick="playCom();" /> <input type="button" name="btn2"
+			value="一時停止" onclick="stopCom();" /> <input
+			type="button" name="btn3" value="最初に移動"
+			onclick="seekCom(0);" />
+			<input type="button" name="btn4" value="alertLoopCount"
+			onclick="alertLoopCountCom();" />
+	</div>
+<script>
+function loadVideo(id){
+	stopCom();
+	document.getElementById('videoID').value=id;
+	log("playTubeVideoID="+id);
+	var iframe = document.getElementById('TubeFrame');
+	iframe.contentWindow.loadVideo(id);
+	playerType=0;
+}
+function loadList(id,index){
+	stopCom();
+	document.getElementById('videoID').value=id;
+	log("playTubeListID="+id+"&index="+index);
+	var iframe = document.getElementById('TubeFrame');
+	iframe.contentWindow.loadList(id,index);
+	playerType=1;
+}
+function loadVideoNico(){
+	stopCom();
+	//alert("再生開始"+videoID);
+	var iframe = document.getElementById('NicoFrame');
+	nowPlayVideoID=document.getElementById('videoID').value;
+	log("playNicoVideoID="+nowPlayVideoID);
+	iframe.contentWindow.loadVideo(nowPlayVideoID);
+	//iframe.contentWindow.myPlayVideo();
+	playerType=2;
+	//removeNicoPlayer();
+	//var nico=new NicovideoPlayer('body',document.getElementById('videoID').value);
+}
+function loadVideoF(){
+	loadVideo(document.getElementById('videoID').value);
+}
+function loadListF(){
+	loadList(document.getElementById('videoID').value,0);
+}
+</script>
+<p>動画ID=<input type="text" name="videoID" value="" id="videoID" />
+<input type="button"　name="btn3" value="ようつべ再生" onclick="loadVideoF();" />
+<input type="button"　name="btn4" value="リスト再生" onclick="loadListF();" />
+<input type="button"　name="btn5" id="playNicoBtn" value="ニコ動再生" onclick="loadVideoNico();" /></p>
+<input type="button" name="btn6" value="IFRAME再読み込み" onclick="reloadNicoFrame();" />
+</body>
 </html>

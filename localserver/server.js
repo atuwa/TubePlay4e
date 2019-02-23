@@ -22,7 +22,7 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		res.send(""+getVolCom());
 		return;
 	}
-	if(req.query.GETerror){//音量取得
+	if(req.query.GETerror){//エラーコード取得
 		res.send(""+getErrorCom());
 		return;
 	}
@@ -31,21 +31,15 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		index=parseInt(req.query.index, 10);//数値化
 	}
 	if (req.query.v) {//v=パラメータがある
-		stopCom();
 		var videoID = req.query.v;
 		//console.log(videoID);
 		//alart("videoID="+videoID);
 		loadVideo(videoID);//動画再生
 		nowPlayVideoID=videoID;
-		playerType=0;
 	}else if (req.query.list) {//プレイリスト
-		stopCom();
 		var listID = req.query.list;//リストID取得
-		//console.log(listID);
-		//alart("listID="+listID);
 		loadList(listID,index);//リスト再生
 		nowPlayVideoID=listID;
-		playerType=1;
 	}else if (req.query.nico) {//nico=パラメータがある
 		var videoID = req.query.nico;
 		document.getElementById('videoID').value=videoID;
@@ -82,10 +76,12 @@ function startServer(){
 }
 function reloadNicoFrame(){
     var iframe = document.getElementById('NicoFrame');
-		//iframe.contentDocument.location.replace('http://nana.sh/slot');//これ動く
-		//iframe.src="http://localhost:"+static_server_port+"/test.html";//ここで内部サーバのiframe読み込み
-		//iframe.contentWindow.location.reload();//これいらない
-		//console.log('http://localhost:'+static_server_port+"/test.html");
-		iframe.contentDocument.location.replace('http://localhost:'+static_server_port+"/nico.html");
+	//iframe.contentDocument.location.replace('http://nana.sh/slot');//これ動く
+	//iframe.src="http://localhost:"+static_server_port+"/test.html";//ここで内部サーバのiframe読み込み
+	//iframe.contentWindow.location.reload();//これいらない
+	//console.log('http://localhost:'+static_server_port+"/test.html");
+	iframe.contentDocument.location.replace('http://localhost:'+static_server_port+"/nico.html");
+    var iframe2 = document.getElementById('TubeFrame');
+	iframe2.contentDocument.location.replace('http://localhost:'+static_server_port+"/tube.html");
 		console.log("IFRAME更新");
 }
