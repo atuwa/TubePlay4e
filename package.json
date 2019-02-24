@@ -1,5 +1,5 @@
 {
-  "name": "tubeplay",
+  "name": "TubePlayForElectron",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,11 @@
   "author": "atuwa",
   "license": "MIT",
   "dependencies": {
+    "electron-windows-installer": "^1.7.8",
     "express": "^4.16.4",
     "node-static": "^0.7.11"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0"
   }
 }

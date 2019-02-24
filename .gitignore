@@ -1,2 +1,5 @@
 tubeplay4e.bat
 tubeplay4e.sh
+node_modules/
+TubePlay4ePackage.bat
+TubePlayForElectron-win32-x64/

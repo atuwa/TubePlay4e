@@ -311,13 +311,14 @@ var _slicedToArray = function () {
 
 		        case 3: // 一時停止
 		        case 4: // 再生終了
-							if (data.playerStatus === 4 && (this.state.isRepeat||loopCountN<3)){//ループ回数制限
-								loopCountN++;
+							if (data.playerStatus === 4 && (this.state.isRepeat||loopCount<MaxLoop)){//ループ回数制限
+								loopCount++;
 		            this.postMessage({
 		              eventName: 'seek',
 		              data: {
 		                time: 0 } });
 		          } else {
+								end=true;
 		            this.playButtonChange(true);
 		          }
 		          break;}

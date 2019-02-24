@@ -32,19 +32,27 @@ function onPlayerError(event) {
 // onStateChangeのコールバック関数
 function onPlayerStateChange(event) {
 	if (event.data == '0') {
-		if(loopCount<3){
+		if(loopCount<maxLoop){
 			loopCount++;
 			player.seekTo(0, true);
 			event.target.playVideo();
-		}
+		}else end=true;
 	}
 }
-var playerReady = 0;
-function isReady() {
-	return playerReady;
+var end = false;
+var maxLoop=3;
+function isEnd() {
+	return end;
+}
+function setMaxLoop(ml) {
+	maxLoop=ml;
+}
+function getMaxLoop() {
+	return maxLoop;
 }
 // プレーヤーの準備ができたとき
 function onPlayerReady(event) {
+	end=false;
 	event.target.mute();
 	event.target.playVideo();
 	//player.setVolume(1);
@@ -58,6 +66,7 @@ function myPauseVideo() {
 }
 function myPlayVideo() {
 	loopCount=0;
+	end=true;
 	player.playVideo();
 }
 function myMute() {
@@ -72,15 +81,6 @@ function mySetVolume(vol) {
 }
 function myGetVolume() {
 	return player.getVolume();
-}
-function myGetTitle() {
-	var xhr=new XMLHttpRequest;
-	xhr.open('get','https://gdata.youtube.com/feeds/api/videos/VIDEOID/related',true);
-	xhr.send('');
-	var title = xhr.responseXML.getElementsByTagName('title')[0].textContent;
-	title = title.replace('Videos related to','');
-	alert(title);
-	return title;
 }
 function alertLoopCount(){
 	alert("LC-T="+loopCount);

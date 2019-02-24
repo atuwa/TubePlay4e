@@ -26,7 +26,8 @@ app.on("ready", () => {
     width: 550,
     height: 500,
     icon: __dirname + '/icon.png',
-    useContentSize: true
+    useContentSize: true,
+    nodeIntegration: true
   });
 
   //使用するhtmlファイルを指定する
