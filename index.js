@@ -11,7 +11,6 @@ const BrowserWindow = electron.BrowserWindow;
 
 // メインウィンドウはGCされないようにグローバル宣言
 let mainWindow = null;
-
 // 全てのウィンドウが閉じたら終了
 app.on("window-all-closed", () => {
   if (process.platform != "darwin") {
@@ -31,7 +30,7 @@ app.on("ready", () => {
   });
 
   //使用するhtmlファイルを指定する
-  mainWindow.loadURL(`file://${__dirname}/localserver/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/index.html`);
   //mainWindow.loadURL('http://localhost:'+localserverport+'/index.html');
 
   // ウィンドウが閉じられたらアプリも終了

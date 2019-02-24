@@ -1,6 +1,7 @@
 console.log("サーバ起動開始");
 var express = require('express');
 var server= express();
+server.use("/",express.static(`${__dirname}/localserver`));
 url = require('url');
 console.log("ページ生成開始");
 var reqCounter=0;
@@ -57,20 +58,14 @@ var static_server=require('http').createServer(function (request, response) {
     }).resume();
 });
 console.log("静的リソースサーバ開始");
-let static_server_port=7001;//内部サーバのポート
-//console.log("サーバ開始");
-//static_server.listen(static_server_port);//サーバのポート7000
+var server_port;
 function startServer(){
 	console.log("サーバ開始");
 	var input_port = document.getElementById("input_port");
-	var port=parseInt(input_port.value, 10);
-	server.listen(port, function() {
-		console.log('サーバ開始'+port);
-		alert('サーバ開始'+port+'&'+(port+1));
-	});
-	static_server_port=port+1;
-	static_server.listen(static_server_port, function() {
-		console.log('静的リソースサーバ開始'+static_server_port);
+	server_port=parseInt(input_port.value, 10);
+	server.listen(server_port, function() {
+		console.log('サーバ開始'+server_port);
+		alert('サーバ開始'+server_port);
 		reloadNicoFrame();
 	});
 }
@@ -80,8 +75,8 @@ function reloadNicoFrame(){
 	//iframe.src="http://localhost:"+static_server_port+"/test.html";//ここで内部サーバのiframe読み込み
 	//iframe.contentWindow.location.reload();//これいらない
 	//console.log('http://localhost:'+static_server_port+"/test.html");
-	iframe.contentDocument.location.replace('http://localhost:'+static_server_port+"/nico.html");
+	iframe.contentDocument.location.replace('http://localhost:'+server_port+"/nico.html");
     var iframe2 = document.getElementById('TubeFrame');
-	iframe2.contentDocument.location.replace('http://localhost:'+static_server_port+"/tube.html");
+	iframe2.contentDocument.location.replace('http://localhost:'+server_port+"/tube.html");
 		console.log("IFRAME更新");
 }
