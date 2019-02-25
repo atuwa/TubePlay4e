@@ -108,3 +108,31 @@ function log(d){
 
 	}
 }
+function loadVideo(id){
+	stopCom();
+	document.getElementById('videoID').value=id;
+	log("playTubeVideoID="+id);
+	var iframe = document.getElementById('TubeFrame');
+	iframe.contentWindow.loadVideo(id);
+	playerType=0;
+}
+function loadList(id,index){
+	stopCom();
+	document.getElementById('videoID').value=id;
+	log("playTubeListID="+id+"&index="+index);
+	var iframe = document.getElementById('TubeFrame');
+	iframe.contentWindow.loadList(id,index);
+	playerType=1;
+}
+function loadVideoNico(){
+	stopCom();
+	//alert("再生開始"+videoID);
+	var iframe = document.getElementById('NicoFrame');
+	nowPlayVideoID=document.getElementById('videoID').value;
+	log("playNicoVideoID="+nowPlayVideoID);
+	iframe.contentWindow.loadVideo(nowPlayVideoID);
+	//iframe.contentWindow.myPlayVideo();
+	playerType=2;
+	//removeNicoPlayer();
+	//var nico=new NicovideoPlayer('body',document.getElementById('videoID').value);
+}
