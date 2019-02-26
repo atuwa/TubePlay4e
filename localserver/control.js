@@ -108,7 +108,7 @@ function log(d){
 
 	}
 }
-function loadVideo(id){
+function loadVideoTube(id){
 	stopCom();
 	document.getElementById('videoID').value=id;
 	log("playTubeVideoID="+id);
@@ -116,7 +116,7 @@ function loadVideo(id){
 	iframe.contentWindow.loadVideo(id);
 	playerType=0;
 }
-function loadList(id,index){
+function loadListTube(id,index){
 	stopCom();
 	document.getElementById('videoID').value=id;
 	log("playTubeListID="+id+"&index="+index);
