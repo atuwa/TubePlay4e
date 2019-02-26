@@ -48,16 +48,6 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 	}
 	res.send(rescode);
 });
-console.log("静的リソースサーバ起動開始");
-var nodeStatic = require('node-static');
-var file = new nodeStatic.Server(__dirname);
-
-var static_server=require('http').createServer(function (request, response) {
-    request.addListener('end', function () {
-        file.serve(request, response);
-    }).resume();
-});
-console.log("静的リソースサーバ開始");
 var server_port;
 function startServer(){
 	console.log("サーバ開始");

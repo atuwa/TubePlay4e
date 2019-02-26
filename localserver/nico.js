@@ -124,7 +124,8 @@ var _slicedToArray = function () {
 					player.allow="autoplay";
 
 		      return player;
-		    } }, { key: 'renderControls', value: function renderControls()
+				}
+			 }, { key: 'renderControls', value: function renderControls()
 
 		    {var _this = this;
 		      var controls = document.createElement('div');
@@ -247,6 +248,7 @@ var _slicedToArray = function () {
 		              }
 
 		            case 'loadComplete':{
+									//console.log("ログ出力テスト");
 										_this2.renderInfoTable(data.videoInfo);
 										_this2.postMessage({
 											sourceConnectorType: 1,
@@ -254,11 +256,13 @@ var _slicedToArray = function () {
 										});
 		                break;
 		              }
-
+								case 'error':{
+									console.log("ニコニコ再生エラー"+e.data);
+								}
 		            default:
-		              console.log(e.data);}
-
-
+								console.log("NicoPlayEvent"+e.data.eventName);
+								console.log(e.data);
+							}
 		          _this2.state = Object.assign({}, _this2.state, data);
 		        }
 		      });
@@ -310,18 +314,28 @@ var _slicedToArray = function () {
 		          break;
 
 		        case 3: // 一時停止
-		        case 4: // 再生終了
-							if (data.playerStatus === 4 && (this.state.isRepeat||loopCount<MaxLoop)){//ループ回数制限
+						case 4: // 再生終了
+						if(data.playerStatus === 4){
+							console.log("N-LC="+loopCount+"&ML="+maxLoop);
+							console.log("isLoop="+(this.state.isRepeat||loopCount<maxLoop));
+							if (this.state.isRepeat||loopCount<maxLoop){//ループ回数制限
 								loopCount++;
+								console.log("PlayNextN-LC="+loopCount+"&ML="+maxLoop);
 		            this.postMessage({
 		              eventName: 'seek',
 		              data: {
 		                time: 0 } });
 		          } else {
+								console.log("PlayEND N-LC="+loopCount+"&ML="+maxLoop);
 								end=true;
 		            this.playButtonChange(true);
-		          }
-		          break;}
+								nico.postMessage({
+											eventName: 'pause',
+									});
+							}
+						}
+						break;
+						}
 
 		    } }, { key: 'playButtonChange', value: function playButtonChange(
 

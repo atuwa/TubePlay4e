@@ -34,11 +34,13 @@ function loadVideoF(){
 	loadVideo(document.getElementById('videoID').value);
 }
 function loadListF(){
-	loadList(document.getElementById('videoID').value,0);
+    var index=parseInt(document.getElementById('videoIndex').value, 10);
+	loadList(document.getElementById('videoID').value,index);
 }
 </script>
-<p>動画ID=<input type="text" name="videoID" value="" id="videoID" />
-<input type="button"　name="btn3" value="ようつべ再生" onclick="loadVideoF();" />
+<p>動画ID=<input type="text" name="videoID" value="" id="videoID" /><br>
+リストIndex=<input type="number" name="videoIndex" value="0" id="videoIndex" /><br>
+<p><input type="button"　name="btn3" value="ようつべ再生" onclick="loadVideoF();" />
 <input type="button"　name="btn4" value="リスト再生" onclick="loadListF();" />
 <input type="button"　name="btn5" id="playNicoBtn" value="ニコ動再生" onclick="loadVideoNico();" /></p>
 </body>
