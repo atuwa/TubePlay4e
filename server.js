@@ -35,11 +35,11 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		var videoID = req.query.v;
 		//console.log(videoID);
 		//alart("videoID="+videoID);
-		loadVideo(videoID);//動画再生
+		loadVideoTube(videoID);//動画再生
 		nowPlayVideoID=videoID;
 	}else if (req.query.list) {//プレイリスト
 		var listID = req.query.list;//リストID取得
-		loadList(listID,index);//リスト再生
+		loadListTube(listID,index);//リスト再生
 		nowPlayVideoID=listID;
 	}else if (req.query.nico) {//nico=パラメータがある
 		var videoID = req.query.nico;
