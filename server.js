@@ -45,6 +45,9 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 		var videoID = req.query.nico;
 		document.getElementById('videoID').value=videoID;
 		loadVideoNico();
+	}else if (req.query.sc) {//sc=パラメータがある
+		document.getElementById('videoID').value=req.query.sc;
+		loadSoundCloud();
 	}
 	res.send(rescode);
 });
@@ -68,5 +71,7 @@ function reloadNicoFrame(){
 	iframe.contentDocument.location.replace('http://localhost:'+server_port+"/nico.html");
     var iframe2 = document.getElementById('TubeFrame');
 	iframe2.contentDocument.location.replace('http://localhost:'+server_port+"/tube.html");
-		console.log("IFRAME更新");
+    var iframe3 = document.getElementById('SoundCloudFrame');
+	iframe3.contentDocument.location.replace('http://localhost:'+server_port+"/SoundCloud.html");
+	console.log("IFRAME更新");
 }

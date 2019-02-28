@@ -10,7 +10,8 @@
 <script src="control.js"></script>
 <script src="tube.js"></script>
 <iframe id="TubeFrame" width="520" height="300" src="tube.html" allow="autoplay" allowFullscreen></iframe><!--srcは後で指定-->
-<iframe id="NicoFrame" width="520" height="300" src="nico.html" allow="autoplay" allowFullscreen></iframe><br><!--srcは後で指定-->
+<iframe id="NicoFrame" width="0" height="0" src="nico.html" allow="autoplay" allowFullscreen></iframe>
+<iframe id="SoundCloudFrame" width="0" height="0" src="SoundCloud.html" allow="autoplay" allowFullscreen></iframe><br><!--srcは後で指定-->
 	<div style="margin-bottom: 5px;">
 		<input type="button" name="btn1" value="ミュート"
 			onclick="muteCom();" /> <input type="button" name="btn2"
@@ -37,12 +38,24 @@ function loadListF(){
     var index=parseInt(document.getElementById('videoIndex').value, 10);
 	loadListTube(document.getElementById('videoID').value,index);
 }
+function SCURL(){
+	var iframe = document.getElementById('SoundCloudFrame');
+	iframe.contentWindow.widget.getCurrentSound(function(data){
+        //console.log(data);
+  		var frame_loaded=document.getElementById("SCURL");
+		  frame_loaded.innerHTML=data.permalink_url;
+		  frame_loaded.href=frame_loaded.innerHTML;
+   });
+}
 </script>
 <p>動画ID=<input type="text" name="videoID" value="" id="videoID" /><br>
 リストIndex=<input type="text" name="videoIndex" value="" id="videoIndex" />
 <input type="button"　name="btn3" value="ようつべ再生" onclick="loadVideoF();" />
 <input type="button"　name="btn4" value="リスト再生" onclick="loadListF();" />
-<input type="button"　name="btn5" id="playNicoBtn" value="ニコ動再生" onclick="loadVideoNico();" /></p>
+<input type="button"　name="btn5" id="playNicoBtn" value="ニコ動再生" onclick="loadVideoNico();" />
+<input type="button"　name="btn7" id="playSoundCloudBtn" value="SoundCloud再生" onclick="loadSoundCloud();" /><br>
+<input type="checkbox"　name="tog" id="showALL" onclick="switchFrame();" >すべてのプレイヤーを表示</input></p>
+<input type="button"　name="btn8" id="SoundCloudURLBtn" value="SoundCloudのURL取得" onclick="SCURL();" /><a id="SCURL" href="void.html"></a><br>
 <b>正常に動作しない時はキャッシュを削除してみてください。</b>
 </body>
 </html>
