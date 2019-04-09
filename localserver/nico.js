@@ -55,13 +55,14 @@ var _slicedToArray = function () {
 	var loopCountN=0;
 	var VolumeData=30;
 	var isMute=false;
+	var player;
 	var NicovideoPlayer = function () {
 			function NicovideoPlayer(containerSelector, watchId) {_classCallCheck(this, NicovideoPlayer);
 		    this.playerId = '0';//(++NicovideoPlayer.playerId).toString();
 		    this.container = document.querySelector(containerSelector);
 		    this.watchId = watchId;
 		    this.state = {
-		      isRepeat: true };
+		      isRepeat: false };
 
 		    this.messageListener();
 		    this.render();
@@ -104,7 +105,7 @@ var _slicedToArray = function () {
 		    } }, { key: 'renderPlayer', value: function renderPlayer()
 
 		    {
-		      var player = document.createElement('iframe');
+		      player = document.createElement('iframe');
 		      var source = new URL(NicovideoPlayer.origin + '/watch/' + this.watchId);
 		      var params = {
 		        jsapi: 1,
@@ -122,6 +123,7 @@ var _slicedToArray = function () {
 		      player.allowFullscreen = true;
 					player.classList.add('c-player');
 					player.allow="autoplay";
+					player.id="nicoframe";
 
 		      return player;
 				}
@@ -259,6 +261,9 @@ var _slicedToArray = function () {
 								case 'error':{
 									console.log("ニコニコ再生エラー"+e.data);
 								}
+								case 'Change':{
+									break;
+								}
 		            default:
 								console.log("NicoPlayEvent"+e.data.eventName);
 								console.log(e.data);
@@ -304,31 +309,34 @@ var _slicedToArray = function () {
 		      if (this.state.maximumBuffered !== data.maximumBuffered) {
 		        this.seekProgress(seek, data);
 		      }
-		    } }, { key: 'playerStatusChange', value: function playerStatusChange(
+		    } }, { key: 'playerStatusChange', value: function playerStatusChange(data) {
+					switch (data.playerStatus) {
+						case 1: // 読み込み開始
+						case 2: // 再生開始
+							console.log("再生開始");
+							this.playButtonChange(false);
+							break;
 
-		    data) {
-		      switch (data.playerStatus) {
-		        case 1: // 読み込み開始
-		        case 2: // 再生開始
-		          this.playButtonChange(false);
-		          break;
-
-		        case 3: // 一時停止
+						case 3: // 一時停止
 						case 4: // 再生終了
 						if(data.playerStatus === 4){
+							loopCount++;
 							console.log("N-LC="+loopCount+"&ML="+maxLoop);
 							console.log("isLoop="+(this.state.isRepeat||loopCount<maxLoop));
 							if (this.state.isRepeat||loopCount<maxLoop){//ループ回数制限
-								loopCount++;
 								console.log("PlayNextN-LC="+loopCount+"&ML="+maxLoop);
-		            this.postMessage({
-		              eventName: 'seek',
-		              data: {
-		                time: 0 } });
-		          } else {
+								this.postMessage({
+									eventName: 'seek',
+									data: {
+										time: 0
+									}
+								});
+								this.postMessage({
+								eventName: 'play' });
+							} else {
 								console.log("PlayEND N-LC="+loopCount+"&ML="+maxLoop);
 								end=true;
-		            this.playButtonChange(true);
+		 						this.playButtonChange(true);
 								nico.postMessage({
 											eventName: 'pause',
 									});

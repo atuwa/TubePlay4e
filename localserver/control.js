@@ -171,7 +171,7 @@ function loadListTube(id,index){
 	iframe.contentWindow.loadList(id,index);
 }
 function loadVideoNico(){
-	stopCom();
+	//stopCom();
 	playerType=2;
 	switchFrame();
 	//alert("再生開始"+videoID);

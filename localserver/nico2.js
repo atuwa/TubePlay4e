@@ -33,8 +33,8 @@ function loadVideo(id) {
   end=false;
   var frame_loaded=document.getElementById("frame_loaded");
   frame_loaded.innerHTML="";
-	removeNicoPlayer();
-	nico=new NicovideoPlayer('body',id);
+  removeNicoPlayer();
+  nico=new NicovideoPlayer('body',id);
 }
 function mySeekTo(point) {
 	nico.postMessage({

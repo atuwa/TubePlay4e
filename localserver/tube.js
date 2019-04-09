@@ -10,7 +10,8 @@ function onYouTubeIframeAPIReady() {
 		width : '480',
 		height : '270',
 		playerVars : {
-			'rel' : 0,
+			//rel: 0,
+			start: 0
 		//	'autoplay' : 0,
 		//'controls' : 0
 		},

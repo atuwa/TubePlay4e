@@ -44,7 +44,12 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 	}else if (req.query.nico) {//nico=パラメータがある
 		var videoID = req.query.nico;
 		document.getElementById('videoID').value=videoID;
-		loadVideoNico();
+		new Promise((resolve, reject) => {
+			var iframe = document.getElementById('NicoFrame');
+			iframe.contentDocument.location.replace('http://localhost:'+server_port+"/nico.html");
+		});
+		setTimeout("loadVideoNico()", 1000);//Iframe差し替えを待たないをまずい？
+		//loadVideoNico();//こっちはダメ
 	}else if (req.query.sc) {//sc=パラメータがある
 		document.getElementById('videoID').value=req.query.sc;
 		loadSoundCloud();
