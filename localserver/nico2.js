@@ -43,9 +43,13 @@ function mySeekTo(point) {
 	      time: point } });
 }
 function myPauseVideo() {
-	nico.postMessage({
-        eventName: 'pause',
+	try{
+    nico.postMessage({
+      eventName: 'pause',
     });
+  }catch(error) {
+
+	}
 }
 function myPlayVideo() {
   end=false;
