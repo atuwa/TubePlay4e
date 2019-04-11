@@ -80,6 +80,18 @@ function getVolCom(){//音量取得
 		return iframe.contentWindow.myGetVolume();
 	}
 }
+function getTitleCom(){
+	if(playerType==3){
+        return "";
+    }else if(playerType==2){
+		var iframe = document.getElementById('NicoFrame');
+		return iframe.contentWindow.getTitle();
+	}else{
+		var iframe = document.getElementById('TubeFrame');
+		return iframe.contentWindow.getTitle();
+	}
+	return "";
+}
 function muteCom(){
 	log("mute");
 	if(playerType==3){
@@ -141,8 +153,11 @@ function log(d){
 
 	}
 }
-function loadSoundCloud(){
+function loadCom(){
 	stopCom();
+}
+function loadSoundCloud(){
+	loadCom();
 	playerType=3;
 	switchFrame();
 	var id=document.getElementById('videoID').value;
@@ -153,7 +168,7 @@ function loadSoundCloud(){
 	iframe.contentWindow.myPlayVideo();
 }
 function loadVideoTube(id){
-	stopCom();
+	loadCom();
 	playerType=0;
 	switchFrame();
 	document.getElementById('videoID').value=id;
@@ -162,7 +177,7 @@ function loadVideoTube(id){
 	iframe.contentWindow.loadVideo(id);
 }
 function loadListTube(id,index){
-	stopCom();
+	loadCom();
 	playerType=1;
 	switchFrame();
 	document.getElementById('videoID').value=id;
@@ -171,17 +186,20 @@ function loadListTube(id,index){
 	iframe.contentWindow.loadList(id,index);
 }
 function loadVideoNico(){
-	stopCom();
+	loadCom();
 	playerType=2;
 	switchFrame();
 	//alert("再生開始"+videoID);
+	setTimeout("loadVideoNicoRaw()",1000);
+	//iframe.contentWindow.myPlayVideo();
+	//removeNicoPlayer();
+	//var nico=new NicovideoPlayer('body',document.getElementById('videoID').value);
+}
+function loadVideoNicoRaw(){
 	var iframe = document.getElementById('NicoFrame');
 	nowPlayVideoID=document.getElementById('videoID').value;
 	log("playNicoVideoID="+nowPlayVideoID);
 	iframe.contentWindow.loadVideo(nowPlayVideoID);
-	//iframe.contentWindow.myPlayVideo();
-	//removeNicoPlayer();
-	//var nico=new NicovideoPlayer('body',document.getElementById('videoID').value);
 }
 function switchFrame(){
 	if(document.getElementById('showALL').checked){

@@ -1,5 +1,7 @@
 var end = false;
 var maxLoop=3;
+var videoTitle;
+var videoComment;
 function removeNicoPlayer(){
     var np=document.getElementsByClassName('NicoPlayer');
     //子要素を全て削除
@@ -18,6 +20,9 @@ function removeNicoPlayer(){
 	//自分を削除
 	//    np.parentNode.removeChild(np);
 }
+function getTitle(){
+	return videoTitle;
+}
 function isEnd() {
 	return end;
 }
@@ -29,6 +34,8 @@ function getMaxLoop() {
 }
 var nico=null;
 function loadVideo(id) {
+	videoTitle="";
+	videoComment="";
   loopCount=0;
   end=false;
   var frame_loaded=document.getElementById("frame_loaded");

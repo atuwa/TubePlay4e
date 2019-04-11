@@ -1,4 +1,5 @@
 var loopCount=0;
+var videoTitle;
 // API読み込み
 script = document.createElement('script');
 script.src = "https://www.youtube.com/iframe_api";
@@ -29,6 +30,7 @@ var errorCode;
 // onErrorのコールバック関数
 function onPlayerError(event) {	
 	errorCode = event.data;
+	console.log(event);
 }
 // onStateChangeのコールバック関数
 function onPlayerStateChange(event) {
@@ -38,6 +40,10 @@ function onPlayerStateChange(event) {
 			player.seekTo(0, true);
 			event.target.playVideo();
 		}else end=true;
+	}
+	if(event.data=='1'){
+		var data=player.getVideoData();
+		videoTitle=data.title;
 	}
 }
 var end = false;
@@ -90,24 +96,38 @@ function getErrorCode(){
 	return errorCode;
 }
 function loadVideo(id){
+	videoTitle="";
 	errorCode=0;
 	player.loadVideoById({
 	            'videoId': id,
-	            'suggestedQuality': 'small'
+	            'suggestedQuality': 'small',
+				// イベントの設定
+				events : {
+					// プレーヤーの準備ができたときに実行
+					'onReady' : onPlayerReady,
+					'onStateChange' : onPlayerStateChange,
+					'onError': onPlayerError
+				}
         });
 	myPlayVideo();
 	player.unMute();
 }
+function getTitle(){
+	return videoTitle;
+	//console.log("TubeVideoTitle="+videoTitle);
+	//console.log(data);
+}
 function loadList(id,index){
-if(index<0)index=0;
-errorCode=0;
+	videoTitle="";
+	errorCode=0;
+	if(index<0)index=0;
 	player.loadPlaylist({
-	            'listType': 'playlist',
-	            'list': id,
-	            'index': index,
-	            'startSeconds': 0,
-	            'suggestedQuality': 'small'
-	        });
+		'listType': 'playlist',
+		'list': id,
+		'index': index,
+		'startSeconds': 0,
+		'suggestedQuality': 'small'
+	});
 	myPlayVideo();
-player.unMute();
+	player.unMute();
 }

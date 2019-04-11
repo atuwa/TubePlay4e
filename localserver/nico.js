@@ -80,13 +80,15 @@ var _slicedToArray = function () {
 		      wrapper.appendChild(this.controls);
 
 		      this.container.appendChild(wrapper);
-		    } }, { key: 'renderInfoTable', value: function renderInfoTable(
-
-		    videoInfo) {
+				} }, { key: 'renderInfoTable', value: 
+				function renderInfoTable(videoInfo) {
 		      var table = document.createElement('table');
 		      var tbody = document.createElement('tbody');
 		      table.classList.add('c-infoTable');
-
+					videoTitle=videoInfo["title"];
+					videoComment=videoInfo["description"];
+					//console.log("NicoVideoTitle="+videoTitle);
+					//console.log("NicoVideoComment="+videoComment);
 		      Object.entries(videoInfo).forEach(function (_ref) {var _ref2 = _slicedToArray(_ref, 2),key = _ref2[0],value = _ref2[1];
 		        var tr = document.createElement('tr');
 		        var th = document.createElement('th');
