@@ -1,3 +1,4 @@
+
 var loopCount=0;
 var videoTitle;
 // API読み込み
@@ -95,11 +96,12 @@ function alertLoopCount(){
 function getErrorCode(){
 	return errorCode;
 }
-function loadVideo(id){
+function loadVideo(id,time){
 	videoTitle="";
 	errorCode=0;
 	player.loadVideoById({
 	            'videoId': id,
+				'startSeconds': time,
 	            'suggestedQuality': 'small',
 				// イベントの設定
 				events : {
@@ -117,7 +119,7 @@ function getTitle(){
 	//console.log("TubeVideoTitle="+videoTitle);
 	//console.log(data);
 }
-function loadList(id,index){
+function loadList(id,index,time){
 	videoTitle="";
 	errorCode=0;
 	if(index<0)index=0;
@@ -125,7 +127,7 @@ function loadList(id,index){
 		'listType': 'playlist',
 		'list': id,
 		'index': index,
-		'startSeconds': 0,
+		'startSeconds': time,
 		'suggestedQuality': 'small'
 	});
 	myPlayVideo();

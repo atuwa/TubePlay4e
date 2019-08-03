@@ -35,15 +35,19 @@ server.get('/operation.html', function(req, res){//操作ページ生成&パラ�
 	if (req.query.index) {//インデックス指定あり
 		index=parseInt(req.query.index, 10);//数値化
 	}
+	var time=0;//tパラメータ
+	if (req.query.t) {//インデックス指定あり
+		time=parseInt(req.query.t, 10);//数値化
+	}
 	if (req.query.v) {//v=パラメータがある
 		var videoID = req.query.v;
 		//console.log(videoID);
 		//alart("videoID="+videoID);
-		loadVideoTube(videoID);//動画再生
+		loadVideoTube(videoID,time);//動画再生
 		nowPlayVideoID=videoID;
 	}else if (req.query.list) {//プレイリスト
 		var listID = req.query.list;//リストID取得
-		loadListTube(listID,index);//リスト再生
+		loadListTube(listID,index,time);//リスト再生
 		nowPlayVideoID=listID;
 	}else if (req.query.nico) {//nico=パラメータがある
 		var videoID = req.query.nico;
